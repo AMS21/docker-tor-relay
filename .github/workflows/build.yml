@@ -21,7 +21,6 @@ jobs:
           - linux/i386
           - linux/ppc64le
           - linux/riscv64
-          - linux/s390x
 
     steps:
       - name: Check out the repo
