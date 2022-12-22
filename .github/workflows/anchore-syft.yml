@@ -1,0 +1,41 @@
+# This workflow checks out code, builds an image, performs a container image
+# scan with Anchore's Syft tool, and uploads the results to the GitHub Dependency
+# submission API.
+
+# For more information on the Anchore sbom-action usage
+# and parameters, see https://github.com/anchore/sbom-action. For more
+# information about the Anchore SBOM tool, Syft, see
+# https://github.com/anchore/syft
+name: Anchore Syft SBOM scan
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 3 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  Anchore-Build-Scan:
+    permissions:
+      contents: write # required to upload to the Dependency submission API
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v3
+
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ams21/tor-relay:latest
+
+    - name: Scan the image and upload dependency results
+      uses: anchore/sbom-action@v0.13.1
+      with:
+        image: "ams21/tor-relay:latest"
+        artifact-name: image.spdx.json
+        dependency-snapshot: true
