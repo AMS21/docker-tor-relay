@@ -1,11 +1,13 @@
 FROM alpine:edge
 
-RUN apk add --no-cache tor
-RUN apk add --update \
+RUN apk add --no-cache \
+    tor \
     python3 \
     python3-dev \
     py3-pip \
     build-base
+
+RUN rm -rf "/var/cache/apk/*"
 
 RUN pip install --no-cache-dir wheel
 RUN pip install --no-cache-dir nyx
