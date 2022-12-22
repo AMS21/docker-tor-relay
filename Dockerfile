@@ -7,8 +7,8 @@ RUN apk add --update \
     py3-pip \
     build-base
 
-RUN pip install wheel
-RUN pip install nyx
+RUN pip install --no-cache-dir wheel
+RUN pip install --no-cache-dir nyx
 
 EXPOSE 9050 9051
 
