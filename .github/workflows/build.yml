@@ -32,6 +32,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2.2.1
 
-      - name: Build an image from Dockerfile
-        run: |
-          docker buildx build --tag "ams21/tor-relay:latest" --platform ${{ matrix.platform }} .
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: .
+          push: false
+          pull: true
+          platforms: ${{ matrix.platform }}
+          tags: ams21/tor-relay:latest
