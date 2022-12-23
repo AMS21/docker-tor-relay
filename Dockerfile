@@ -5,7 +5,8 @@ RUN apk add --no-cache \
     python3 \
     python3-dev \
     py3-pip \
-    build-base
+    build-base \
+    sudo
 
 RUN rm -rf "/var/cache/apk/*"
 
@@ -16,6 +17,7 @@ EXPOSE 9050 9051
 
 VOLUME ["/var/lib/tor"]
 
-USER tor
-
+# Entry point
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
 CMD ["/usr/bin/tor"]
