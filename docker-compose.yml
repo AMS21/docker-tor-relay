@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  tor-relay:
+    container_name: tor-relay
+    image: ams21/tor-relay:latest
+    pull_policy: always
+    restart: unless-stopped
+    networks:
+      - tor-relay-network
+    ports:
+      - 127.0.0.1:9050:9050
+      - 127.0.0.1:9051:9051
+      # You need to forward these port
+      - 9001:9001
+      - 9030:9030
+    volumes:
+      - /docker/tor-relay/data:/var/lib/tor:rw
+      - /etc/localtime:/etc/localtime
+      - type: bind
+        source: /docker/tor-relay/torrc
+        target: /etc/tor/torrc
+
+networks:
+  tor-relay-network:
+    name: tor-relay
