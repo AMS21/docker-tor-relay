@@ -7,7 +7,7 @@ RUN apk add --no-cache \
     python3-dev \
     py3-pip \
     build-base \
-    sudo
+    libcap-utils
 
 # Clear cache
 RUN rm -rf "/var/cache/apk/*"
@@ -15,6 +15,9 @@ RUN rm -rf "/var/cache/apk/*"
 # Install nyx using python
 RUN pip install --no-cache-dir wheel
 RUN pip install --no-cache-dir nyx
+
+# Allow tor to bind to ports < 1024.
+RUN setcap cap_net_bind_service=+ep /usr/bin/tor
 
 # Ensure we have access to the required files
 RUN chown tor: /etc/tor
