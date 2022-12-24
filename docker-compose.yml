@@ -8,19 +8,25 @@ services:
     restart: unless-stopped
     networks:
       - tor-relay-network
+    environment:
+      # You need to forward these ports
+      - OR_PORT=443
+      - DIR_PORT=80
+      - EMAIL=you@email.com
+      - NICKNAME=DockerTorRelay
+      # - TORRC_Address=<IP4-Address>
     ports:
       - 127.0.0.1:9050:9050
       - 127.0.0.1:9051:9051
-      # You need to forward these port
-      - 9001:9001
-      - 9030:9030
+      - ${OR_PORT}:${OR_PORT}
+      - ${DIR_PORT}:${DIR_PORT}
     volumes:
-      - /docker/tor-relay/data:/var/lib/tor:rw
-      - /etc/localtime:/etc/localtime
-      - type: bind
-        source: /docker/tor-relay/torrc
-        target: /etc/tor/torrc
+      - data:/var/lib/tor
 
 networks:
   tor-relay-network:
     name: tor-relay
+
+volumes:
+  data:
+    name: tor-relay-data

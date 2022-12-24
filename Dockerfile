@@ -1,5 +1,6 @@
 FROM alpine:edge
 
+# Install packages
 RUN apk add --no-cache \
     tor \
     python3 \
@@ -8,16 +9,24 @@ RUN apk add --no-cache \
     build-base \
     sudo
 
+# Clear cache
 RUN rm -rf "/var/cache/apk/*"
 
+# Install nyx using python
 RUN pip install --no-cache-dir wheel
 RUN pip install --no-cache-dir nyx
 
-EXPOSE 9050 9051
+# Ensure we have access to the required files
+RUN chown tor: /etc/tor
+RUN chown tor: /var/lib/tor
+RUN chown tor: /var/log/tor
 
-VOLUME ["/var/lib/tor"]
+# Copy entry point
+COPY entrypoint.sh /usr/local/bin
 
-# Entry point
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
-CMD ["/usr/bin/tor"]
+RUN chmod 0755 /usr/local/bin/entrypoint.sh
+
+USER tor
+
+# Run our entrypoint
+CMD [ "/usr/local/bin/entrypoint.sh" ]

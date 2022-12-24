@@ -8,12 +8,12 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 # Create volume
 docker volume create tor-relay-volume
 
+OR_PORT=9001
+DIR_PORT=9030
+
 docker run -d --name tor-relay \
-  -p 127.0.0.1:9050:9050 \
-  -p 9001:9001 \
-  -p 9030:9030 \
-  -p 127.0.0.1:9051:9051 \
-  --volume "${SCRIPT_DIR}/config/torrc":/etc/tor/torrc:ro \
-  --volume /etc/localtime:/etc/localtime \
   --volume tor-relay-volume:/var/lib/tor:rw \
+  -e OR_PORT=${OR_PORT} \
+  -e DIR_PORT=${DIR_PORT} \
+  -e EMAIL=you@email.com \
   ams21/tor-relay:latest
