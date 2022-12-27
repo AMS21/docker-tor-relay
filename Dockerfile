@@ -29,7 +29,5 @@ COPY entrypoint.sh /usr/local/bin
 
 RUN chmod 0755 /usr/local/bin/entrypoint.sh
 
-USER tor
-
 # Run our entrypoint
 CMD [ "/usr/local/bin/entrypoint.sh" ]
