@@ -6,10 +6,6 @@ set -u
 # Nickname
 NICK=${NICKNAME:-DockerTorRelay}
 
-# Bandwith
-RATE=${BANDWITHDRATE:-"20 MBits"}
-BURST=${BANDWITHDBURST:-"40 MBits"}
-
 echo "Using NICKNAME=${NICK}, OR_PORT=${OR_PORT}, DIR_PORT=${DIR_PORT}, and EMAIL=${EMAIL}."
 
 ADDITIONAL_VARIABLES_PREFIX="TORRC_"
@@ -41,10 +37,6 @@ ContactInfo ${EMAIL}
 # Logging
 Log notice file /var/log/tor/log
 Log notice stdout
-
-# Bandwithrating
-BandwidthRate ${RATE}
-BandwidthBurst ${BURST}
 
 CookieAuthentication 1
 # We're not an exit relay
