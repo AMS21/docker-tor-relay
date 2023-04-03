@@ -34,7 +34,7 @@ jobs:
       run: docker build . --file Dockerfile --tag ams21/tor-relay:latest
 
     - name: Scan the image and upload dependency results
-      uses: anchore/sbom-action@v0.13.4
+      uses: anchore/sbom-action@v0.14.1
       with:
         image: "ams21/tor-relay:latest"
         artifact-name: image.spdx.json
