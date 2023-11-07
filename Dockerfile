@@ -1,12 +1,12 @@
 FROM alpine:edge
 
+# Upgrade installed packages
+RUN apk upgrade --no-cache
+
 # Install packages
 RUN apk add --no-cache \
     tor \
     libcap-utils
-
-# Clear cache
-RUN rm -rf "/var/cache/apk/*"
 
 # Allow tor to bind to ports < 1024.
 RUN setcap cap_net_bind_service=+ep /usr/bin/tor
