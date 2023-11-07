@@ -3,18 +3,10 @@ FROM alpine:edge
 # Install packages
 RUN apk add --no-cache \
     tor \
-    python3 \
-    python3-dev \
-    py3-pip \
-    build-base \
     libcap-utils
 
 # Clear cache
 RUN rm -rf "/var/cache/apk/*"
-
-# Install nyx using python
-RUN pip install --no-cache-dir wheel
-RUN pip install --no-cache-dir nyx
 
 # Allow tor to bind to ports < 1024.
 RUN setcap cap_net_bind_service=+ep /usr/bin/tor
