@@ -1,9 +1,12 @@
-#!/bin/bash -eu
+#!/usr/bin/env bash
+
+set -e
+set -u
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 # Make sure the latest images was build
-./build.sh
+"${SCRIPT_DIR}/build.sh"
 
 # Create volume
 docker volume create tor-relay-volume

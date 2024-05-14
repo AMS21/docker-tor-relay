@@ -28,14 +28,14 @@ jobs:
 
     steps:
     - name: Checkout the code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.1.4
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ams21/tor-relay:latest
+      run: docker build . --file Dockerfile --tag ${{ github.actor }}/tor-relay:latest
 
     - name: Scan the image and upload dependency results
       uses: anchore/sbom-action@v0.15.11
       with:
-        image: "ams21/tor-relay:latest"
+        image: "${{ github.actor }}/tor-relay:latest"
         artifact-name: image.spdx.json
         dependency-snapshot: true
