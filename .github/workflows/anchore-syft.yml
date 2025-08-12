@@ -28,7 +28,7 @@ jobs:
 
     steps:
     - name: Checkout the code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ams21/tor-relay:latest
